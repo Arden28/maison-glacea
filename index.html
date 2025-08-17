@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glacéa - Maison de glace créative</title>
+  <meta name="description" content="Glacéa est une maison de glace en devenir : univers créatif, manifeste, histoire et feuille de route. Lancement prévu été 2026."/>
+  <meta name="theme-color" content="#8EE3F5" />
+  <meta property="og:title" content="Glacéa - Maison de glace créative" />
+  <meta property="og:description" content="La glace & l’ambition. La rue & le raffinement. Un projet en construction qui donne déjà envie d’y croire." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1563805042-7684c019e1cb?q=80&w=1600&auto=format&fit=crop" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Sora', 'ui-sans-serif', 'system-ui'] },
+          colors: {
+            glacea: {
+              50: '#F3FBFE', 100:'#E6F7FD', 200:'#C5F0FA', 300:'#9BE5F7', 400:'#6FD8F2', 500:'#47CBEA', 600:'#2BB0CF', 700:'#1F8FA9', 800:'#1E7489', 900:'#1C5F70'
+            },
+            strawberry: '#FF8DA1',
+            mango: '#FFC65C',
+            pistachio: '#A3E1A1',
+          },
+          boxShadow: { scoop: '0 10px 30px -5px rgba(0,0,0,0.15)' },
+          backgroundImage: {
+            sprinkle: "radial-gradient(circle at 1rem 1rem, rgba(255,255,255,.9) 2px, transparent 3px), radial-gradient(circle at 2rem 1.5rem, rgba(255,255,255,.7) 2px, transparent 3px)",
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root { color-scheme: light dark; }
+    .backdrop-blur-12 { backdrop-filter: blur(12px); }
+  </style>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script>
+    const pref = localStorage.getItem('glacea-theme');
+    if (pref === 'dark') document.documentElement.classList.add('dark');
+  </script>
+</head>
+<body x-data="app()" class="min-h-screen bg-gradient-to-b from-glacea-50 via-white to-glacea-100 text-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:text-slate-100 antialiased">
+  <!-- Barre Annonce -->
+  <div class="relative isolate z-50 bg-gradient-to-r from-strawberry to-mango text-white">
+    <div class="mx-auto max-w-7xl px-4 py-2 text-center text-sm">
+      ☀️ ÉTÉ 2026 — Glacéa arrive. <a href="#contact" class="underline font-semibold ml-1">Rejoignez l’aventure →</a>
+    </div>
+  </div>
+
+  <!-- Blobs décoratifs -->
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-24 -right-24 h-72 w-72 rounded-full bg-glacea-200 opacity-60 blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 h-80 w-80 rounded-full bg-pistachio opacity-60 blur-3xl"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 backdrop-blur-12 bg-white/70 dark:bg-slate-900/60 border-b border-white/60 dark:border-white/10">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-3">
+        <img src="/assets/images/glacea_logo_256.png" style="height: 36px;" alt="Glacéa Logo" class="drop-shadow">
+        <span class="text-xl font-extrabold tracking-tight">Glacéa</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+        <a href="#univers" class="hover:text-glacea-700 dark:hover:text-glacea-300">Univers</a>
+        <a href="#manifeste" class="hover:text-glacea-700 dark:hover:text-glacea-300">Manifeste</a>
+        <a href="#histoire" class="hover:text-glacea-700 dark:hover:text-glacea-300">Histoire</a>
+        <a href="#fondatrice" class="hover:text-glacea-700 dark:hover:text-glacea-300">Fondatrice</a>
+        <a href="#feuille-de-route" class="hover:text-glacea-700 dark:hover:text-glacea-300">Feuille de route</a>
+        <a href="#contact" class="hover:text-glacea-700 dark:hover:text-glacea-300">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button @click="toggleTheme()" class="inline-flex items-center gap-2 rounded-full border border-slate-200/70 dark:border-white/10 px-3 py-1.5 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-white/5" aria-label="Activer le mode sombre">
+          <svg x-show="!isDark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728 0-.707.707M6.343 17.657l-.707.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+          <svg x-show="isDark" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.64 13.65A9 9 0 1 1 10.35 2.36 7 7 0 0 0 21.64 13.65z"/></svg>
+          <span class="hidden sm:inline">Thème</span>
+        </button>
+        <a href="#contact" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-glacea-500 to-strawberry px-4 py-2 text-white text-sm font-semibold shadow-scoop hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-glacea-300">Suivre l’aventure</a>
+        <button class="md:hidden inline-flex items-center justify-center rounded-full p-2 hover:bg-slate-100 dark:hover:bg-white/10" @click="mobileOpen = !mobileOpen" aria-label="Ouvrir le menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div x-show="mobileOpen" @click.outside="mobileOpen=false" class="md:hidden border-t border-slate-200/70 dark:border-white/10">
+      <nav class="px-4 py-3 space-y-3 text-sm">
+        <a @click="mobileOpen=false" href="#univers" class="block">Univers</a>
+        <a @click="mobileOpen=false" href="#manifeste" class="block">Manifeste</a>
+        <a @click="mobileOpen=false" href="#histoire" class="block">Histoire</a>
+        <a @click="mobileOpen=false" href="#fondatrice" class="block">Fondatrice</a>
+        <a @click="mobileOpen=false" href="#feuille-de-route" class="block">Feuille de route</a>
+        <a @click="mobileOpen=false" href="#contact" class="block">Contact</a>
+        <a @click="mobileOpen=false" href="#contact" class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-glacea-500 to-strawberry px-4 py-2 text-white font-semibold shadow-scoop">Suivre l’aventure</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="home" class="relative overflow-hidden">
+    <div class="mx-auto max-w-7xl px-4 pt-16 pb-20 md:pt-20 md:pb-28 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/70 dark:bg-white/10 px-3 py-1 text-xs font-semibold border border-white/60 dark:border-white/10">Projet en construction • France</span>
+        <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+          La <span class="bg-gradient-to-r from-strawberry to-glacea-600 bg-clip-text text-transparent">glace</span>. L’ambition. La <span class="bg-gradient-to-r from-mango to-strawberry bg-clip-text text-transparent">rue & le raffinement</span>.
+        </h1>
+        <p class="mt-5 text-lg text-slate-600 dark:text-slate-300 max-w-xl">Glacéa est une maison de glace en devenir — née en France. Des recettes naturelles, imaginées avec l’exigence d’un atelier et l’audace de la rue. <strong>Pas encore en vente</strong> : lancement pilote prévu <strong>été 2026</strong>.</p>
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href="#univers" class="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-5 py-3 text-sm font-semibold shadow-scoop hover:opacity-90">Découvrir l’univers <span aria-hidden>→</span></a>
+          <a href="#histoire" class="inline-flex items-center gap-2 rounded-full border border-slate-300/70 dark:border-white/20 px-5 py-3 text-sm font-semibold hover:bg-white/60 dark:hover:bg-white/5">Lire l’histoire</a>
+        </div>
+        <div class="mt-8 flex items-center gap-6 text-sm text-slate-600 dark:text-slate-300">
+          <div class="flex items-center gap-2">🍃 100% naturel</div>
+          <div class="flex items-center gap-2">🥥 Options vegan</div>
+          <div class="flex items-center gap-2">🎨 Sans colorants artificiels</div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="absolute -inset-6 -z-10 bg-gradient-to-br from-glacea-200/70 to-strawberry/40 rounded-3xl blur-2xl"></div>
+        <img class="w-full h-[380px] sm:h-[460px] object-cover rounded-3xl shadow-scoop" src="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=1600&auto=format&fit=crop" alt="Cornets de glace colorés" loading="eager" fetchpriority="high" decoding="async"/>
+        <div class="absolute -bottom-6 left-6 right-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-12 rounded-2xl p-4 shadow-scoop flex items-center justify-between">
+          <div class="text-sm"><p class="font-semibold">Nouveau : Passionfruit Ripple</p><p class="text-slate-600 dark:text-slate-300">Prototype — acidulé, solaire</p></div>
+          <a href="#univers" class="rounded-full bg-gradient-to-r from-mango to-strawberry text-white px-4 py-2 text-xs font-semibold shadow-scoop">Voir</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Univers / Moodboard des parfums -->
+  <section id="univers" class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Univers Glacéa</h2>
+          <p class="mt-2 text-slate-600 dark:text-slate-300">Un avant-goût de nos inspirations — <span class="font-semibold">prototypes</span>, pas de vente en ligne.</p>
+        </div>
+      </div>
+
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <template x-for="f in flavors" :key="f.name">
+          <article class="group rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-3 shadow hover:shadow-lg transition-shadow">
+            <div class="relative">
+              <img loading="lazy" decoding="async" :src="f.image" :alt="f.name" class="h-44 w-full object-cover rounded-xl"/>
+              <div class="absolute top-3 left-3 flex gap-2">
+                <template x-for="tag in f.tags"><span class="px-2 py-0.5 text-[10px] rounded-full bg-white/90 dark:bg-slate-900/80 border border-slate-200/70 dark:border-white/10 font-semibold" x-text="tag"></span></template>
+              </div>
+            </div>
+            <div class="mt-3 flex items-start justify-between gap-2">
+              <div>
+                <h3 class="font-semibold text-slate-900 dark:text-white" x-text="f.name"></h3>
+                <p class="text-sm text-slate-500 dark:text-slate-300" x-text="f.desc"></p>
+              </div>
+              <div class="text-right">
+                <span class="inline-flex items-center rounded-full border border-slate-300/70 dark:border-white/20 px-2 py-1 text-[10px] font-semibold">Prototype</span>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+
+      <div class="mt-8 text-center">
+        <a href="#manifeste" class="inline-flex items-center gap-2 rounded-full border border-slate-300/70 dark:border-white/20 px-5 py-3 text-sm font-semibold hover:bg-white/60 dark:hover:bg-white/5">Lire le manifeste</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Capsules éphémères -->
+  <section id="capsules" class="py-16 md:py-24 bg-gradient-to-b from-white to-glacea-50 dark:from-slate-900 dark:to-slate-900/60">
+    <div class="mx-auto max-w-7xl px-4">
+      <div class="flex items-end justify-between flex-wrap gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Capsules éphémères</h2>
+          <p class="mt-2 text-slate-600 dark:text-slate-300">Petites séries, grandes idées. Disponibles lors des pop-ups (été 2026).</p>
+        </div>
+        <div class="text-sm text-slate-500 dark:text-slate-300">Faites glisser →</div>
+      </div>
+
+      <div class="mt-8 flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-thin scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-700">
+        <template x-for="s in seasonal" :key="s.name">
+          <div class="min-w-[260px] max-w-[260px] snap-start rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-3 shadow">
+            <img loading="lazy" decoding="async" :src="s.image" :alt="s.name" class="h-40 w-full object-cover rounded-xl"/>
+            <div class="mt-3 flex items-center justify-between">
+              <div>
+                <p class="font-semibold" x-text="s.name"></p>
+                <p class="text-xs text-slate-500 dark:text-slate-300" x-text="s.window"></p>
+              </div>
+              <span class="inline-flex items-center rounded-full bg-gradient-to-r from-mango to-strawberry text-white px-3 py-1.5 text-xs font-semibold shadow">Éphémère</span>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manifeste -->
+  <section id="manifeste" class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 grid md:grid-cols-2 gap-10 items-center">
+      <div class="relative">
+        <img loading="lazy" decoding="async" class="rounded-3xl shadow-scoop h-[420px] w-full object-cover" src="https://images.unsplash.com/photo-1549395156-c418d9d01569?q=80&w=1400&auto=format&fit=crop" alt="Glace artisanale en préparation"/>
+        <div class="absolute -bottom-6 -left-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-12 border border-white/60 dark:border-white/10 rounded-2xl p-4 w-64 shadow-scoop">
+          <p class="text-sm font-semibold">Peu d’ingrédients</p>
+          <p class="text-xs text-slate-600 dark:text-slate-300">Beaucoup d’exigence. Rien d’artificiel.</p>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Manifeste</h2>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Glacéa mélange les codes : <strong>la réalité & le rêve</strong>, <strong>la rue & le raffinement</strong>. On crée des glaces sérieuses qui ne se prennent pas au sérieux.</p>
+        <dl class="mt-6 grid grid-cols-2 gap-4 text-sm">
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Goût vrai</dt><dd class="text-slate-600 dark:text-slate-300">Fruits de saison, bases courtes</dd></div>
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Créatif</dt><dd class="text-slate-600 dark:text-slate-300">Capsules, collabs, pop-ups</dd></div>
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Inclusif</dt><dd class="text-slate-600 dark:text-slate-300">Vegan & sans colorants</dd></div>
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Local</dt><dd class="text-slate-600 dark:text-slate-300">Approvisionnement raisonné</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- Histoire -->
+  <section id="histoire" class="py-16 md:py-24 bg-gradient-to-b from-glacea-50 to-white dark:from-slate-900/60 dark:to-slate-900">
+    <div class="mx-auto max-w-7xl px-4 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">L’histoire derrière Glacéa</h2>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Derrière Glacéa il y a une obsession simple : <strong>réunir le goût, le style et l’exigence</strong>. La glace comme un terrain de jeu où l’on parle autant d’émotions que de textures, de souvenirs que de techniques.</p>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Glacéa n’est pas encore lancé. Et c’est précisément le moment où tout se dessine : recettes en R&D, identité visuelle, lieux de pop-up, collaborations. L’objectif : arriver <em>prêts dans la tête</em>, puis ouvrir la marche, pas à pas.</p>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Si l’univers vous parle — que vous soyez curieux, partenaire potentiel, incubateur, jury ou investisseur — <a href="#contact" class="font-semibold underline">écrivez‑nous</a>. On construit tout ça proprement.</p>
+      </div>
+      <div class="relative">
+        <img loading="lazy" decoding="async" class="rounded-3xl shadow-scoop h-[420px] w-full object-cover" src="https://images.unsplash.com/photo-1514846160150-3e1d229e5e4d?q=80&w=1400&auto=format&fit=crop" alt="Détails raffinés de pistache"/>
+        <div class="absolute -top-6 -right-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-12 border border-white/60 dark:border-white/10 rounded-2xl p-4 w-64 shadow-scoop">
+          <p class="text-sm font-semibold">Ambition simple</p>
+          <p class="text-xs text-slate-600 dark:text-slate-300">Faire bon, beau et juste — sans tricher.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fondatrice -->
+  <section id="fondatrice" class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4 grid md:grid-cols-2 gap-10 items-center">
+      <div class="relative order-2 md:order-1">
+        <img loading="lazy" decoding="async" class="rounded-3xl shadow-scoop h-[460px] w-full object-cover" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1600&auto=format&fit=crop" alt="Portrait de la fondatrice de Glacéa — jeune femme noire"/>
+        <div class="absolute -bottom-6 -left-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-12 border border-white/60 dark:border-white/10 rounded-2xl p-4 w-64 shadow-scoop">
+          <p class="text-sm font-semibold">Origines modestes</p>
+          <p class="text-xs text-slate-600 dark:text-slate-300">Beaucoup d’idées, peu de moyens — juste assez pour créer.</p>
+        </div>
+      </div>
+      <div class="order-1 md:order-2">
+        <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">À propos de la fondatrice</h2>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Jeune femme ambitieuse issue d’une famille modeste, la fondatrice de Glacéa a appris très tôt à <strong>faire beaucoup avec peu</strong>. Des premières glaces improvisées dans la cuisine familiale aux tests R&D menés avec rigueur, elle relie le <em>street</em> au <em>chic</em>, le quotidien au rêve.</p>
+        <p class="mt-3 text-slate-600 dark:text-slate-300">Sa vision : une maison de glace française qui respecte les saisons, parle vrai, et <strong>donne envie d’avancer</strong>. Derrière chaque parfum, une histoire, une texture, une exigence.</p>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm">
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Autodidacte</dt><dd class="text-slate-600 dark:text-slate-300">Formée par la pratique, lectures, mentors</dd></div>
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Exigence</dt><dd class="text-slate-600 dark:text-slate-300">Peu d’ingrédients, beaucoup de précision</dd></div>
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Ancrage</dt><dd class="text-slate-600 dark:text-slate-300">Famille, quartiers, culture</dd></div>
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 p-4 bg-white/60 dark:bg-white/5"><dt class="font-semibold">Ouverture</dt><dd class="text-slate-600 dark:text-slate-300">Collabs, dialogues, transmission</dd></div>
+        </div>
+        <figure class="mt-6 border-l-4 border-glacea-500 pl-4">
+          <blockquote class="text-slate-700 dark:text-slate-200 italic">“On peut partir de peu et viser juste. La glace, c’est une émotion qu’on sculpte.”</blockquote>
+          <figcaption class="mt-2 text-xs text-slate-500">— La fondatrice</figcaption>
+        </figure>
+        <div class="mt-6 grid sm:grid-cols-2 gap-3">
+          <a href="#contact" class="inline-flex items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 text-sm font-semibold">Presse & prises de parole</a>
+          <a href="#contact" class="inline-flex items-center justify-center rounded-xl border border-slate-300/70 dark:border-white/20 px-4 py-3 text-sm font-semibold hover:bg-white/60 dark:hover:bg-white/5">Proposer une collaboration</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feuille de route -->
+  <section id="feuille-de-route" class="py-16 md:py-24">
+    <div class="mx-auto max-w-7xl px-4">
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Feuille de route</h2>
+      <div class="mt-8 grid md:grid-cols-2 gap-6">
+        <template x-for="step in roadmap" :key="step.title">
+          <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-5">
+            <p class="text-sm font-semibold text-glacea-700 dark:text-glacea-300" x-text="step.when"></p>
+            <h3 class="mt-1 font-semibold" x-text="step.title"></h3>
+            <p class="mt-1 text-sm text-slate-600 dark:text-slate-300" x-text="step.desc"></p>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- Témoignages / Intentions -->
+  <section class="py-16 md:py-24 bg-gradient-to-b from-white to-glacea-50 dark:from-slate-900 dark:to-slate-900/60">
+    <div class="mx-auto max-w-7xl px-4">
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight text-center">Ce qu’on veut entendre demain</h2>
+      <div class="mt-10 grid md:grid-cols-3 gap-6">
+        <template x-for="t in testimonials" :key="t.name">
+          <figure class="rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-5 shadow">
+            <div class="flex items-center gap-3">
+              <img loading="lazy" decoding="async" :src="t.avatar" :alt="t.name" class="h-10 w-10 rounded-full object-cover"/>
+              <figcaption>
+                <p class="text-sm font-semibold" x-text="t.name"></p>
+                <p class="text-xs text-slate-500" x-text="t.role"></p>
+              </figcaption>
+            </div>
+            <blockquote class="mt-3 text-sm text-slate-700 dark:text-slate-300" x-text="t.quote"></blockquote>
+          </figure>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Newsletter -->
+  <section id="contact" class="py-16 md:py-24">
+    <div class="mx-auto max-w-3xl px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Suivre l’aventure</h2>
+      <p class="mt-2 text-slate-600 dark:text-slate-300">Nouvelles, coulisses, dates des pop-ups — pas de spam.</p>
+      <form class="mt-6 mx-auto flex max-w-md items-center gap-2" @submit.prevent="subscribe()">
+        <input type="email" required placeholder="vous@glacea.fr" class="flex-1 rounded-xl border border-slate-300/70 dark:border-white/20 bg-white/80 dark:bg-white/10 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-glacea-300" x-model="email"/>
+        <button class="rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 text-sm font-semibold">S’inscrire</button>
+      </form>
+      <p class="mt-2 text-xs text-slate-500">Désinscription en un clic.</p>
+
+      <div class="mt-10 grid sm:grid-cols-2 gap-4 text-left">
+        <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+          <p class="text-sm font-semibold">Partenaires & incubateurs</p>
+          <p class="text-sm text-slate-600 dark:text-slate-300">Demandes pro, dossiers, collabs : <a href="mailto:bonjour@glacea.fr" class="font-semibold underline">bonjour@glacea.fr</a></p>
+        </div>
+        <div class="rounded-2xl border border-slate-200/70 dark:border-white/10 bg-white/70 dark:bg-white/5 p-4">
+          <p class="text-sm font-semibold">Investisseurs & concours</p>
+          <p class="text-sm text-slate-600 dark:text-slate-300">Deck et infos sur demande : <a href="mailto:invest@glacea.fr" class="font-semibold underline">invest@glacea.fr</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200/70 dark:border-white/10 py-10">
+    <div class="mx-auto max-w-7xl px-4 grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center gap-3">
+            <img src="/assets/images/glacea_logo_256.png" style="height: 36px;" alt="Glacéa Logo" class="drop-shadow">
+          <span class="text-lg font-extrabold">Glacéa</span>
+        </div>
+        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">Maison de glace créative — France.</p>
+      </div>
+      <div>
+        <p class="text-sm font-semibold">Parcourir</p>
+        <ul class="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+          <li><a href="#univers" class="hover:underline">Univers</a></li>
+          <li><a href="#manifeste" class="hover:underline">Manifeste</a></li>
+          <li><a href="#histoire" class="hover:underline">Histoire</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-sm font-semibold">Ressources</p>
+        <ul class="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
+          <li><a href="#feuille-de-route" class="hover:underline">Feuille de route</a></li>
+          <li><a href="#contact" class="hover:underline">Contact</a></li>
+          <li><a href="#" class="hover:underline">Kit presse (bientôt)</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="text-sm font-semibold">Suivre</p>
+        <div class="mt-3 flex gap-3 text-slate-600 dark:text-slate-300">
+          <a href="#" aria-label="Instagram" class="hover:text-glacea-700 dark:hover:text-glacea-300">
+            <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3a5 5 0 1 0 .001 10.001A5 5 0 0 0 12 7zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm5.5-.75a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>
+          </a>
+          <a href="#" aria-label="TikTok" class="hover:text-glacea-700 dark:hover:text-glacea-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M16 3c1 1.7 2.7 3 4.7 3.4V9c-1.9-.1-3.6-.8-4.9-1.8V15a6 6 0 1 1-6-6c.5 0 1 .1 1.5.2V11a3 3 0 1 0 3 3V3h1.8z"/></svg>
+          </a>
+          <a href="#" aria-label="X" class="hover:text-glacea-700 dark:hover:text-glacea-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M18.2 2H21l-6.6 7.5L22 22h-5.7l-4.3-5.7L7.1 22H3l7.3-8.2L2 2h5.8l3.9 5.2L18.2 2zM8.2 4H5.8l10.2 13.9h2.5L8.2 4z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-8 text-center text-xs text-slate-500">© <span x-text="year"></span> Glacéa. France. Tous droits réservés.</div>
+  </footer>
+
+  <!-- App State -->
+  <script>
+    function app(){
+      return {
+        isDark: document.documentElement.classList.contains('dark'),
+        mobileOpen: false,
+        email: '',
+        year: new Date().getFullYear(),
+        flavors: [
+          { name:'Vanille Bourbon', desc:'Gousses de Madagascar, crème riche', tags:['Classique','Crémeux'], image:'https://images.unsplash.com/photo-1541976076758-347942db1970?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Chocolat Noir 70%', desc:'Intense, franc, cacao éthique', tags:['Sans gluten'], image:'https://images.unsplash.com/photo-1509744645300-7f4f5b6a8ba5?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Fraise Gariguette', desc:'Pur fruit, peu sucré', tags:['Fruité'], image:'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Sorbet Mangue', desc:'Vegan, soleil en bouche', tags:['Vegan','Sans lait'], image:'https://images.unsplash.com/photo-1623428187969-5da2dcea8fd4?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Pistache de Sicile', desc:'Torréfiée, texturée', tags:['Gourmand'], image:'https://images.unsplash.com/photo-1514846160150-3e1d229e5e4d?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Coco Crémeux', desc:'Base coco & avoine', tags:['Vegan'], image:'https://images.unsplash.com/photo-1448043552756-e747b7a2b2b8?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Caramel Beurre Salé', desc:'Lentement cuisiné', tags:['Signature'], image:'https://images.unsplash.com/photo-1464306076886-da185f6a9d05?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Passion Ripple', desc:'Acidité éclatante', tags:['Saison'], image:'https://images.unsplash.com/photo-1541782572-1483b4b1a43a?q=80&w=1200&auto=format&fit=crop' },
+        ],
+        seasonal: [
+          { name:'Sorbet Mangue', window:'Été', image:'https://images.unsplash.com/photo-1623428187969-5da2dcea8fd4?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Goyave & Citron vert', window:'Printemps', image:'https://images.unsplash.com/photo-1589712230328-67d2f0cf2cae?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Cheesecake Myrtille', window:'Juin–Août', image:'https://images.unsplash.com/photo-1488477181946-6428a0291777?q=80&w=1200&auto=format&fit=crop' },
+          { name:'Masala Chaï', window:'Toute l’année', image:'https://images.unsplash.com/photo-1505575972945-27950a1d9e09?q=80&w=1200&auto=format&fit=crop' }
+        ],
+        roadmap: [
+          { when:'2025', title:'R&D & identité', desc:'Recettes, sourcing, univers visuel, tests privés.' },
+          { when:'Printemps 2026', title:'Pré‑lancement', desc:'Capsules et dégustations privées, premiers retours.' },
+          { when:'Été 2026', title:'Lancement pilote', desc:'Pop‑ups en France (ex. Paris, Marseille) — séries limitées.' },
+          { when:'Automne 2026', title:'Éphémère', desc:'Boutique temporaire & collabs locales.' },
+          { when:'2027', title:'Boutique permanente', desc:'Ouverture visée selon traction et équipe.' }
+        ],
+        testimonials: [
+          { name:'Lina', role:'Cheffe pâtissière', quote:'Un travail propre, net, sans artifices — et pourtant très moderne.' , avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200&auto=format&fit=crop'},
+          { name:'Ely', role:'Créateur de contenu', quote:'Le mélange rue/raffinement fait mouche. On a envie de suivre.' , avatar:'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=200&auto=format&fit=crop'},
+          { name:'Noa', role:'Food lover', quote:'Le sorbet mangue ? Soleil. Pur. Addictif.' , avatar:'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=200&auto=format&fit=crop'}
+        ],
+        subscribe(){ alert(`Merci ! On vous écrira bientôt à ${this.email}.`); this.email=''; },
+        toggleTheme(){ this.isDark = !this.isDark; document.documentElement.classList.toggle('dark'); localStorage.setItem('glacea-theme', this.isDark ? 'dark' : 'light'); }
+      }
+    }
+  </script>
+
+  <!-- Fallback images & referrer policy -->
+  <script>
+    (function(){
+      const FALLBACK='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="%2347CBEA"/><stop offset="1" stop-color="%23FF8DA1"/></linearGradient></defs><rect width="100%" height="100%" fill="url(%23g)"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="white" font-family="Sora, Arial" font-size="48">Glacéa</text></svg>';
+      document.querySelectorAll('img').forEach(img=>{
+        img.setAttribute('referrerpolicy','no-referrer');
+        img.addEventListener('error', ()=>{ if(img.src!==FALLBACK){ img.src=FALLBACK; } });
+      });
+    })();
+  </script>
+
+  <!-- Données structurées -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Brand",
+    "name": "Glacéa",
+    "slogan": "Goût vrai, style vif",
+    "foundingDate": "2025",
+    "areaServed": "FR",
+    "url": "https://glacea.example/",
+    "sameAs": ["https://instagram.com/"],
+    "description": "Maison de glace créative — univers, manifeste, histoire et feuille de route. Lancement prévu été 2026."
+  }
+  </script>
+</body>
+</html>
