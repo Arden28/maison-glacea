@@ -85,6 +85,32 @@
     .backdrop-blur-12 { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     /* Safe mobile defaults without altering design */
     img { max-width: 100%; height: auto; }
+    
+    /* Golden text selection */
+    ::selection {
+      background: #FDE68A; /* gold-200 */
+      color: #0F172A;      /* slate-900 for contrast */
+    }
+    ::-moz-selection {
+      background: #FDE68A;
+      color: #0F172A;
+    }
+
+    /* Ensure form fields follow the same style */
+    input::selection,
+    textarea::selection {
+      background: #FDE68A;
+      color: #0F172A;
+    }
+
+    /* Slightly deeper gold in dark mode for better contrast */
+    .dark ::selection,
+    .dark input::selection,
+    .dark textarea::selection {
+      background: #F59E0B; /* gold-500 */
+      color: #0F172A;
+    }
+
   </style>
 
   <!-- Alpine.js -->
