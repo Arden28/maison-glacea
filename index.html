@@ -57,16 +57,6 @@
           href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap">
   </noscript>
 
-  <!-- Optionally preload your LCP hero image -->
-  <!-- <link rel="preload" as="image"
-        href="https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=1600&auto=format&fit=crop"
-        imagesrcset="
-          https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=800&auto=format&fit=crop 800w,
-          https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=1200&auto=format&fit=crop 1200w,
-          https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=1600&auto=format&fit=crop 1600w"
-        imagesizes="(min-width: 1024px) 50vw, 100vw"
-        crossorigin="anonymous"> -->
-
   <!-- Tailwind (CDN) + config -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -92,7 +82,9 @@
 
   <style>
     :root { color-scheme: light dark; }
-    .backdrop-blur-12 { backdrop-filter: blur(12px); }
+    .backdrop-blur-12 { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    /* Safe mobile defaults without altering design */
+    img { max-width: 100%; height: auto; }
   </style>
 
   <!-- Alpine.js -->
@@ -141,7 +133,7 @@
   </script>
 </head>
 
-<body x-data="app()" class="min-h-screen bg-gradient-to-b from-gold-50 via-white to-white text-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:text-slate-100 antialiased">
+<body x-data="app()" class="min-h-screen overflow-x-hidden bg-gradient-to-b from-gold-50 via-white to-white text-slate-800 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 dark:text-slate-100 antialiased">
 
   <!-- Glacéa Brand Sprite (inline, reusable) -->
   <svg aria-hidden="true" width="0" height="0">
@@ -187,13 +179,12 @@
 
   <!-- Navbar -->
   <header class="sticky top-0 z-40 backdrop-blur-12 bg-white/70 dark:bg-slate-900/60 border-b border-white/60 dark:border-white/10">
-    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
-      <a href="#home" class="inline-flex items-center text-gold-800 dark:text-gold-300">
+    <div class="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between min-w-0">
+      <a href="#home" class="inline-flex items-center text-gold-800 dark:text-gold-300 shrink-0">
         <svg aria-label="Glacéa" class="h-[40px] w-auto block leading-none">
           <use href="#glacea-wordmark-compact"></use>
         </svg>
       </a>
-
 
       <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
         <a href="#univers" class="hover:text-gold-700 dark:hover:text-gold-300">Univers</a>
@@ -236,7 +227,7 @@
     <div class="mx-auto max-w-7xl px-4 pt-16 pb-20 md:pt-20 md:pb-28 grid md:grid-cols-2 gap-10 items-center">
       <div>
         <span class="inline-flex items-center gap-2 rounded-full bg-white/70 dark:bg-white/10 px-3 py-1 text-xs font-semibold border border-white/60 dark:border-white/10">Projet en construction • France</span>
-        <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight">
+        <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight tracking-tight break-words">
           La <span class="bg-gradient-to-r from-gold-400 to-gold-600 bg-clip-text text-transparent">glace</span>. L’ambition. La <span class="bg-gradient-to-r from-gold-300 to-gold-600 bg-clip-text text-transparent">rue & le raffinement</span>.
         </h1>
         <p class="mt-5 text-lg text-slate-600 dark:text-slate-300 max-w-xl">Glacéa est une maison de glace en devenir née en France. Des recettes naturelles, imaginées avec l’exigence d’un atelier et l’audace de la rue. <strong>Pas encore en vente</strong> : lancement pilote prévu <strong>été 2026</strong>.</p>
@@ -254,7 +245,7 @@
       <div class="relative">
         <div class="absolute -inset-6 -z-10 bg-gradient-to-br from-gold-100/70 to-gold-300/30 rounded-3xl blur-2xl"></div>
         <img class="w-full h-[380px] sm:h-[460px] object-cover rounded-3xl shadow-scoop" src="/assets/images/1.png" alt="Cornets de glace colorés" loading="eager" fetchpriority="high" decoding="async"/>
-        <div class="absolute -bottom-6 left-6 right-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-12 rounded-2xl p-4 shadow-scoop flex items-center justify-between">
+        <div class="absolute -bottom-6 left-6 right-6 bg-white/80 dark:bg-slate-900/80 backdrop-blur-12 rounded-2xl p-4 shadow-scoop flex flex-wrap items-center justify-between gap-3">
           <div class="text-sm"><p class="font-semibold">Nouveau : Passionfruit Ripple</p><p class="text-slate-600 dark:text-slate-300">Prototype acidulé, solaire</p></div>
           <a href="#univers" class="rounded-full bg-white text-gold-800 border border-gold-300 px-4 py-2 text-xs font-semibold shadow-scoop hover:bg-gold-50">Voir</a>
         </div>
